@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">RecyclerViewContact</string>
+    <string name="grid">GridLayout</string>
+    <string name="add">add</string>
+    <string name="save">Save</string>
+    <string name="close">close</string>
+    <string name="name">ContactName</string>
+    <string name="number">Contact Number</string>
+    <string name="title">Add Contact</string>
+    <string name="not_enter_username">Please enter user name</string>
+    <string name="not_enter_contact">Please enter Number Phone</string>
+    <string name="title_edit">Edit Contact</string>
+    <string name="delete">Delete</string>
+    <string name="update">Update</string>
+</resources>
