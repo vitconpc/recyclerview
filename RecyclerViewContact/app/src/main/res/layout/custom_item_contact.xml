@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_view"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/custom_background_item"
-    android:layout_marginBottom="@dimen/dp_16"
-    android:layout_marginRight="@dimen/dp_16"
+    android:layout_margin="@dimen/dp_5"
+    app:cardElevation="@dimen/dp_5"
+    app:cardCornerRadius="@dimen/dp_5"
     android:orientation="vertical">
 
-    <TextView
-    android:id="@+id/txt_name"
-    style="@style/TextCustom"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/txt_number"
-        style="@style/TextCustom"
+    <LinearLayout
+        android:id="@+id/item_view"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="hi"
+            android:id="@+id/txt_name"
+            style="@style/TextCustom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="ad"
+            android:id="@+id/txt_number"
+            style="@style/TextCustom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

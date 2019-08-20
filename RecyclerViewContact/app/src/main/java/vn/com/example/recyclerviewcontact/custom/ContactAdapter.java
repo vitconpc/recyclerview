@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
 
 import vn.com.example.recyclerviewcontact.R;
 import vn.com.example.recyclerviewcontact.data.Contact;
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
+public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> implements ItemTouchHelperAdapter {
 
     private Context context;
     private List<Contact> contacts;
@@ -74,5 +75,25 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             txtContactNumber.setText(contact.getContactNumber());
             txtContactName.setText(contact.getContactName());
         }
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        contacts.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(contacts, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(contacts, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
     }
 }

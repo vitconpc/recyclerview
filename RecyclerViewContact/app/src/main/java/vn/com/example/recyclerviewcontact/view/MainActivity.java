@@ -1,11 +1,13 @@
 package vn.com.example.recyclerviewcontact.view;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import java.util.List;
 import vn.com.example.recyclerviewcontact.R;
 import vn.com.example.recyclerviewcontact.custom.ContactAdapter;
 import vn.com.example.recyclerviewcontact.custom.ContactEvent;
+import vn.com.example.recyclerviewcontact.custom.SimpleItemTouchHelperCallback;
 import vn.com.example.recyclerviewcontact.data.Contact;
 
 public class MainActivity extends AppCompatActivity implements ContactEvent, CompoundButton.OnCheckedChangeListener{
@@ -32,6 +35,11 @@ public class MainActivity extends AppCompatActivity implements ContactEvent, Com
     private LinearLayoutManager linnearlayout;
     private GridLayoutManager gridlayout;
 
+    private AlertDialog AddDialog;
+    private AlertDialog UpdateDialog;
+    private EditText userName;
+    private EditText numberContact;
+    private Contact contact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +52,19 @@ public class MainActivity extends AppCompatActivity implements ContactEvent, Com
 
     private void setEvent() {
         swGrid.setOnCheckedChangeListener(this);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(contactAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerContact);
     }
 
     private void initData() {
         swGrid.setChecked(false);
+        contacts.add(new Contact("0348472270","Việt"));
+        contacts.add(new Contact("0348472270","Linh"));
+        contacts.add(new Contact("0348472270","Phúc"));
+        contacts.add(new Contact("0348472270","Thúy"));
+        contacts.add(new Contact("0348472270","Kid"));
+        contactAdapter.notifyDataSetChanged();
     }
 
     private void initView() {
@@ -64,11 +81,13 @@ public class MainActivity extends AppCompatActivity implements ContactEvent, Com
 
     @Override
     public void eventClick(final int position) {
-        final Contact contact = contacts.get(position);
-        final Dialog dialog = new Dialog(this);
+        contact = contacts.get(position);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View viewDialog  = LayoutInflater.from(this).inflate(R.layout.custom_dialog_item,null);
-        final EditText userName =  viewDialog.findViewById(R.id.edt_name);
-        final EditText numberContact =  viewDialog.findViewById(R.id.edt_number);
+        builder.setView(viewDialog);
+        UpdateDialog = builder.create();
+        userName =  viewDialog.findViewById(R.id.edt_name);
+        numberContact =  viewDialog.findViewById(R.id.edt_number);
         Button btnDelete = viewDialog.findViewById(R.id.btn_delete);
         Button btnUpdate = viewDialog.findViewById(R.id.btn_update);
 
@@ -80,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements ContactEvent, Com
             public void onClick(View v) {
                 contacts.remove(position);
                 contactAdapter.notifyDataSetChanged();
-                dialog.dismiss();
+                UpdateDialog.dismiss();
             }
         });
         btnUpdate.setOnClickListener(new View.OnClickListener() {
@@ -98,12 +117,11 @@ public class MainActivity extends AppCompatActivity implements ContactEvent, Com
                 contact.setContactName(userName.getText().toString().trim());
                 contact.setContactNumber(numberContact.getText().toString().trim());
                 contactAdapter.notifyDataSetChanged();
-                dialog.dismiss();
+                UpdateDialog.dismiss();
             }
         });
-        dialog.setContentView(viewDialog);
-        dialog.setCancelable(false);
-        dialog.show();
+        UpdateDialog.setCancelable(false);
+        UpdateDialog.show();
     }
 
     @Override
@@ -116,17 +134,18 @@ public class MainActivity extends AppCompatActivity implements ContactEvent, Com
     }
 
     public void addContact(View view) {
-        final Dialog dialog = new Dialog(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View viewDialog  = LayoutInflater.from(this).inflate(R.layout.custom_dialog,null);
+        builder.setView(viewDialog);
         final EditText userName =  viewDialog.findViewById(R.id.edt_name);
         final EditText numberContact =  viewDialog.findViewById(R.id.edt_number);
         Button btnClose = viewDialog.findViewById(R.id.btn_close);
         Button btnSave = viewDialog.findViewById(R.id.btn_save);
-
+        AddDialog = builder.create();
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                AddDialog.dismiss();
             }
         });
          btnSave.setOnClickListener(new View.OnClickListener() {
@@ -145,11 +164,10 @@ public class MainActivity extends AppCompatActivity implements ContactEvent, Com
                          ,userName.getText().toString().trim());
                  contacts.add(0,contact);
                  contactAdapter.notifyDataSetChanged();
-                dialog.dismiss();
+                 AddDialog.dismiss();
              }
          });
-        dialog.setContentView(viewDialog);
-        dialog.setCancelable(false);
-        dialog.show();
+        AddDialog.setCancelable(false);
+        AddDialog.show();
     }
 }

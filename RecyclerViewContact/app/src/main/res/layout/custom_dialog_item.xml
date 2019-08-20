@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_30"
         android:text="@string/title_edit"
         android:textSize="@dimen/sp_25"
         android:textStyle="bold" />
@@ -33,6 +33,7 @@
         android:inputType="numberDecimal" />
 
     <LinearLayout
+        android:layout_marginBottom="@dimen/dp_30"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
